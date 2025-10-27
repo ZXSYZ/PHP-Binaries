@@ -1,7 +1,7 @@
 ﻿$ErrorActionPreference="Stop"
 $ProgressPreference="SilentlyContinue"
 
-$PHP_VERSIONS=@("8.1.33", "8.2.29", "8.3.26", "8.4.13", "8.5.0RC1")
+$PHP_VERSIONS=@("8.1.33", "8.2.29", "8.3.27", "8.4.14", "8.5.0RC3")
 
 $PHP_SDK_VER="2.4.0"
 $ARCH="x64"
@@ -16,7 +16,7 @@ $LIBDEFLATE_VER="96836d7d9d10e3e0d53e6edb54eb908514e336c4" #1.24 - see above not
 
 $PHP_PMMPTHREAD_VER="6.2.0"
 $PHP_YAML_VER="2.2.5"
-$PHP_CHUNKUTILS2_VER="0.3.5"
+$PHP_CHUNKUTILS2_VER="0.4.0"
 $PHP_IGBINARY_VER="3.2.16"
 $PHP_LEVELDB_VER="88071eb1b1eae96af043229104b9d813f7cbe40c" #release not tagged
 $PHP_CRYPTO_VER="999b3c7edbc7f8ca4fdeb0bb4bbae488ad0daf07" #release not tagged
@@ -24,13 +24,13 @@ $PHP_RECURSIONGUARD_VER="0.1.0"
 $PHP_MORTON_VER="0.1.2"
 $PHP_LIBDEFLATE_VER="0.2.1"
 $PHP_XXHASH_VER="0.2.0"
-$PHP_XDEBUG_VER="3.4.5"
-$PHP_ARRAYDEBUG_VER="0.2.0"
+$PHP_XDEBUG_VER="3.4.7"
+$PHP_ARRAYDEBUG_VER="0.2.1"
 $PHP_ENCODING_VER="1.0.0"
 
 $PHP_PMMPTHREAD_VER_PHP85="4aa34a27feaa43adba5f1e93939828d1d7afdefc"
 $PHP_IGBINARY_VER_PHP85="8f8b7175c7859f1845bcdee6f7d0baeea7d07cb8"
-$PHP_XDEBUG_VER_PHP85="86727b0b05b5d0a9c4fb85021f05d7931e2c3a35"
+$PHP_XDEBUG_VER_PHP85="3.5.0alpha2"
 
 function pm-echo {
     param ([string] $message)
