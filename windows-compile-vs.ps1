@@ -30,7 +30,7 @@ $PHP_ENCODING_VER="1.0.0"
 
 $PHP_PMMPTHREAD_VER_PHP85="4aa34a27feaa43adba5f1e93939828d1d7afdefc"
 $PHP_IGBINARY_VER_PHP85="8f8b7175c7859f1845bcdee6f7d0baeea7d07cb8"
-$PHP_XDEBUG_VER_PHP85="3.5.0alpha2"
+$PHP_XDEBUG_VER_PHP85="b8bc9425390ca7745abdc715a359d2f369c1a07b" #needs https://github.com/xdebug/xdebug/pull/1040 because of glob changes
 
 function pm-echo {
     param ([string] $message)
