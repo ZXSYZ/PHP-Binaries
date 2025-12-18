@@ -23,7 +23,7 @@ LIBZIP_VERSION="1.11.4"
 SQLITE3_VERSION="3500400" #3.50.4
 LIBDEFLATE_VERSION="96836d7d9d10e3e0d53e6edb54eb908514e336c4" #1.24 - see above note about "v" prefixes
 
-EXT_PMMPTHREAD_VERSION="6.2.0"
+EXT_PMMPTHREAD_VERSION="6.3.0"
 EXT_YAML_VERSION="2.2.5"
 EXT_LEVELDB_VERSION="88071eb1b1eae96af043229104b9d813f7cbe40c" #release not tagged
 EXT_CHUNKUTILS2_VERSION="0.3.5"
@@ -37,7 +37,6 @@ EXT_XXHASH_VERSION="0.2.0"
 EXT_ARRAYDEBUG_VERSION="0.2.1"
 EXT_ENCODING_VERSION="1.0.0"
 
-EXT_PMMPTHREAD_VERSION_PHP85="4aa34a27feaa43adba5f1e93939828d1d7afdefc"
 EXT_XDEBUG_VERSION_PHP85="3.5.0alpha2"
 EXT_IGBINARY_VERSION_PHP85="8f8b7175c7859f1845bcdee6f7d0baeea7d07cb8"
 
@@ -306,7 +305,6 @@ PHP_VERSION_ID=$(php_version_id "$PHP_VERSION")
 write_out "opt" "Selected PHP $PHP_VERSION ($PHP_VERSION_ID)"
 
 if [ $PHP_VERSION_ID -ge 80500 ]; then
-  EXT_PMMPTHREAD_VERSION="$EXT_PMMPTHREAD_VERSION_PHP85"
   EXT_XDEBUG_VERSION="$EXT_XDEBUG_VERSION_PHP85"
   EXT_IGBINARY_VERSION="$EXT_IGBINARY_VERSION_PHP85"
 fi
@@ -643,7 +641,7 @@ function build_gmp {
 		download_from_mirror "gmp-$GMP_VERSION.tar.xz" "gmp" | tar -Jx >> "$DIR/install.log" 2>&1
 		write_configure
 		cd "$gmp_dir"
-		RANLIB=$RANLIB ./configure --prefix="$INSTALL_DIR" \
+		CFLAGS="-std=gnu17 $CFLAGS" RANLIB=$RANLIB ./configure --prefix="$INSTALL_DIR" \
 		$EXTRA_FLAGS \
 		--disable-posix-threads \
 		--enable-static \
