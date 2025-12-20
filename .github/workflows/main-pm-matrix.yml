@@ -171,10 +171,10 @@ jobs:
         include:
           - target-name: mac-x86-64
             artifact-name: x86_64
-            image: macos-13
+            image: macos-15-intel
           - target-name: mac-arm64
             artifact-name: arm64
-            image: macos-14
+            image: macos-15
 
     steps:
       - uses: actions/checkout@v5
