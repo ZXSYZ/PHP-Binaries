@@ -315,7 +315,7 @@ if [ "$HAVE_OPCACHE_JIT" == "yes" ]; then
   if [ $PHP_VERSION_ID -lt 80400 ]; then
     write_out "WARNING" "JIT in versions below PHP 8.4 is highly unstable and not recommended"
   else
-    write_out "WARNING" "JIT in PHP 8.4 has not been tested, use it with caution"
+    write_out "WARNING" "JIT in PHP 8.4+ may be unstable, use it with caution"
   fi
 else
   write_out "INFO" "JIT support in OPcache won't be compiled"
@@ -467,9 +467,11 @@ else
 fi
 
 if [ "$DO_STATIC" == "yes" ]; then
-	HAVE_OPCACHE="no" #doesn't work on static builds
-	HAVE_OPCACHE_JIT="no"
-	write_out "warning" "OPcache cannot be used on static builds; this may have a negative effect on performance"
+    if [ "$PHP_VERSION_ID" -lt 80500 ]; then
+		HAVE_OPCACHE="no"
+		HAVE_OPCACHE_JIT="no"
+		write_out "warning" "OPcache cannot be used on static builds prior to PHP 8.5; this may have a negative effect on performance"
+	fi
 	if [ "$FSANITIZE_OPTIONS" != "" ]; then
 		write_out "warning" "Sanitizers cannot be used on static builds"
 	fi
