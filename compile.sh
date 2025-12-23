@@ -454,6 +454,7 @@ else
 		exit 1
 	elif [ -z "$CFLAGS" ]; then
 		if [ `getconf LONG_BIT` == "64" ]; then
+			COMPILE_TARGET="linux64"
 			write_out "INFO" "Compiling for current machine using 64-bit"
 			if [ "$(uname -m)" != "aarch64" ]; then
 				CFLAGS="-m64 $CFLAGS"
@@ -1152,6 +1153,32 @@ get_github_extension "arraydebug" "$EXT_ARRAYDEBUG_VERSION" "pmmp" "ext-arraydeb
 
 get_github_extension "encoding" "$EXT_ENCODING_VERSION" "pmmp" "ext-encoding"
 
+cafile=""
+if [[ "$COMPILE_TARGET" == "mac"* ]]; then
+	cafile="/etc/ssl/cert.pem"
+elif [[ "$COMPILE_TARGET" == "linux"* ]] && [[ "$IS_CROSSCOMPILE" != "yes" ]]; then
+	#try to detect the correct location from the current system
+	for file in \
+		"$SSL_CERT_FILE" \
+		"/etc/ssl/certs/ca-certificates.crt" \
+		"/etc/pki/tls/certs/ca-bundle-crt" \
+		"/etc/ssl/cert.pem";
+	do
+		if [ -f "$file" ]; then
+			cafile="$file"
+			break
+		fi
+	done
+else
+	echo "wtf $COMPILE_TARGET"
+fi
+if [ -z "$cafile" ]; then
+	write_out "WARNING" "Don't know where to find SSL CA bundle for this target; PHP code won't be able to safely access https:// links unless openssl.cafile is configured to the correct path in php.ini"
+else
+	write_out "INFO" "System SSL CA bundle detected as $cafile; if this is not correct, please adjust openssl.cafile in php.ini"
+
+fi
+
 write_library "PHP" "$PHP_VERSION"
 
 write_configure
@@ -1357,6 +1384,9 @@ echo "error_reporting=-1" >> "$INSTALL_DIR/bin/php.ini"
 echo "display_errors=1" >> "$INSTALL_DIR/bin/php.ini"
 echo "display_startup_errors=1" >> "$INSTALL_DIR/bin/php.ini"
 echo "recursionguard.enabled=0 ;disabled due to minor performance impact, only enable this if you need it for debugging" >> "$INSTALL_DIR/bin/php.ini"
+if [ -n "$cafile" ]; then
+	echo "openssl.cafile=$cafile" >> "$INSTALL_DIR/bin/php.ini"
+fi
 
 if [ "$HAVE_OPCACHE" == "yes" ]; then
 	if [ "$PHP_VERSION_ID" -lt 80500 ]; then
