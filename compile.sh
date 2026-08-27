@@ -23,7 +23,6 @@ LIBZIP_VERSION="1.11.4"
 SQLITE3_VERSION="3510100" #3.51.1
 LIBDEFLATE_VERSION="c8c56a20f8f621e6a966b716b31f1dedab6a41e3" #1.25 - see above note about "v" prefixes
 
-EXT_PMMPTHREAD_VERSION="6.3.0"
 EXT_YAML_VERSION="2.3.0"
 EXT_LEVELDB_VERSION="88071eb1b1eae96af043229104b9d813f7cbe40c" #release not tagged
 EXT_CHUNKUTILS2_VERSION="0.3.5"
@@ -1119,7 +1118,6 @@ function get_pecl_extension {
 cd "$BUILD_DIR/php"
 write_out "PHP" "Downloading additional extensions..."
 
-get_github_extension "pmmpthread" "$EXT_PMMPTHREAD_VERSION" "pmmp" "ext-pmmpthread"
 
 
 get_github_extension "yaml" "$EXT_YAML_VERSION" "php" "pecl-file_formats-yaml"
@@ -1137,19 +1135,6 @@ git submodule update --init --recursive >> "$DIR/install.log" 2>&1
 cd "$BUILD_DIR"
 write_done
 
-get_github_extension "leveldb" "$EXT_LEVELDB_VERSION" "pmmp" "php-leveldb"
-
-get_github_extension "chunkutils2" "$EXT_CHUNKUTILS2_VERSION" "pmmp" "ext-chunkutils2"
-
-get_github_extension "libdeflate" "$EXT_LIBDEFLATE_VERSION" "pmmp" "ext-libdeflate"
-
-get_github_extension "morton" "$EXT_MORTON_VERSION" "pmmp" "ext-morton"
-
-get_github_extension "xxhash" "$EXT_XXHASH_VERSION" "pmmp" "ext-xxhash"
-
-get_github_extension "arraydebug" "$EXT_ARRAYDEBUG_VERSION" "pmmp" "ext-arraydebug"
-
-get_github_extension "encoding" "$EXT_ENCODING_VERSION" "pmmp" "ext-encoding"
 
 cafile=""
 if [[ "$COMPILE_TARGET" == "mac"* ]]; then
@@ -1265,18 +1250,10 @@ RANLIB=$RANLIB CFLAGS="$CFLAGS $FLAGS_LTO" CXXFLAGS="$CXXFLAGS $FLAGS_LTO" LDFLA
 --with-yaml \
 --with-openssl \
 --with-zip \
---with-libdeflate \
-$HAS_LIBJPEG \
-$HAS_GD \
---with-leveldb="$INSTALL_DIR" \
 --without-readline \
-$HAS_DEBUG \
---enable-chunkutils2 \
---enable-morton \
 --enable-mbstring \
 --disable-mbregex \
 --enable-calendar \
---enable-pmmpthread \
 --enable-fileinfo \
 --with-libxml \
 --enable-xml \
@@ -1309,10 +1286,6 @@ $HAVE_MYSQLI \
 --enable-opcache-jit=$HAVE_OPCACHE_JIT \
 --enable-igbinary \
 --with-crypto \
---enable-recursionguard \
---enable-xxhash \
---enable-arraydebug \
---enable-encoding \
 $HAVE_VALGRIND \
 $CONFIGURE_FLAGS >> "$DIR/install.log" 2>&1
 write_compile
